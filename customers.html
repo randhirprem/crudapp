@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/styles.css">
+    <title>Customers</title>
+</head>
+
+<body>
+    <header>
+        <h1>Customers</h1>
+        <nav>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/addresses">Addresses</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <form action="/customers/search" method="get">
+            <input type="text" name="name" placeholder="Search by name">
+            <button type="submit">Search</button>
+        </form>
+
+        <h2>Add New Customer</h2>
+        <form action="/customers" method="post">
+            <input type="text" name="CustomerName" placeholder="Customer Name" required>
+            <input type="number" name="PhoneNumber" placeholder="Phone Number" required>
+            <input type="email" name="EmailAddress" placeholder="Email Address">
+            <select name="CustomerType">
+                <option value="business">Business</option>
+                <option value="personal">Personal</option>
+            </select>
+            <button type="submit">Add Customer</button>
+        </form>
+
+        <h2>Customer List</h2>
+        <table>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Phone</th>
+                <th>Email</th>
+                <th>Type</th>
+                <th>Actions</th>
+            </tr>
+            <% customers.forEach(customer=> { %>
+                <tr>
+                    <td>
+                        <%= customer.CustomerID %>
+                    </td>
+                    <td>
+                        <%= customer.CustomerName %>
+                    </td>
+                    <td>
+                        <%= customer.PhoneNumber %>
+                    </td>
+                    <td>
+                        <%= customer.EmailAddress %>
+                    </td>
+                    <td>
+                        <%= customer.CustomerType %>
+                    </td>
+                    <td>
+                        <form action="/customers/update" method="post" style="display:inline-block;">
+                            <input type="hidden" name="CustomerID" value="<%= customer.CustomerID %>">
+                            <input type="text" name="CustomerName" value="<%= customer.CustomerName %>" required>
+                            <input type="number" name="PhoneNumber" value="<%= customer.PhoneNumber %>" required>
+                            <input type="email" name="EmailAddress" value="<%= customer.EmailAddress %>">
+                            <select name="CustomerType">
+                                <option value="business" <%=customer.CustomerType==='business' ? 'selected' : '' %>
+                                    >Business</option>
+                                <option value="personal" <%=customer.CustomerType==='personal' ? 'selected' : '' %>
+                                    >Personal</option>
+                            </select>
+                            <button type="submit">Update</button>
+                        </form>
+                        <form action="/customers/delete" method="post" style="display:inline-block;">
+                            <input type="hidden" name="CustomerID" value="<%= customer.CustomerID %>">
+                            <button type="submit">Delete</button>
+                        </form>
+                    </td>
+                </tr>
+                <% }) %>
+        </table>
+    </main>
+</body>
+
+</html>

@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/styles.css">
+    <title>Addresses</title>
+</head>
+
+<body>
+    <header>
+        <h1>Addresses</h1>
+        <nav>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/customers">Customers</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <h2>Add New Address</h2>
+        <form action="/addresses" method="post">
+            <input type="text" name="Address" placeholder="Address" required>
+            <input type="text" name="PostalCode" placeholder="Postal Code" required>
+            <input type="number" name="CustomerID" placeholder="Customer ID" required>
+            <button type="submit">Add Address</button>
+        </form>
+
+        <h2>Address List</h2>
+        <table>
+            <tr>
+                <th>ID</th>
+                <th>Address</th>
+                <th>Postal Code</th>
+                <th>Customer ID</th>
+                <th>Actions</th>
+            </tr>
+            <% addresses.forEach(address=> { %>
+                <tr>
+                    <td>
+                        <%= address.AddressID %>
+                    </td>
+                    <td>
+                        <%= address.Address %>
+                    </td>
+                    <td>
+                        <%= address.PostalCode %>
+                    </td>
+                    <td>
+                        <%= address.CustomerID %>
+                    </td>
+                    <td>
+                        <form action="/addresses/update" method="post" style="display:inline-block;">
+                            <input type="hidden" name="AddressID" value="<%= address.AddressID %>">
+                            <input type="text" name="Address" value="<%= address.Address %>" required>
+                            <input type="text" name="PostalCode" value="<%= address.PostalCode %>" required>
+                            <input type="number" name="CustomerID" value="<%= address.CustomerID %>" required>
+                            <button type="submit">Update</button>
+                        </form>
+                        <form action="/addresses/delete" method="post" style="display:inline-block;">
+                            <input type="hidden" name="AddressID" value="<%= address.AddressID %>">
+                            <button type="submit">Delete</button>
+                        </form>
+                    </td>
+                </tr>
+                <% }) %>
+        </table>
+    </main>
+</body>
+
+</html>
